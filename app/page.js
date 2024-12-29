@@ -14,21 +14,16 @@ const Home = () => {
 
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(null);
- const {ShowPublicKeyInvalidMessage, setShowPublicKeyInvalidMessage} = useState(false);
 
   useEffect(() => {
     vapi.on("call-start", () => {
       setConnecting(false);
       setConnected(true);
-
-      setShowPublicKeyInvalidMessage(false);
     });
 
     vapi.on("call-end", () => {
       setConnecting(false);
       setConnected(false);
-
-      setShowPublicKeyInvalidMessage(false);
     });
 
     vapi.on("speech-start", () => {
