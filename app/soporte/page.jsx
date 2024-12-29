@@ -2,17 +2,33 @@
 import React, { useState, useEffect, useRef } from "react";
 import Vapi from "@vapi-ai/web";
 import Image from "next/image";
+import RoleplayInterface from "@/components/RoleplayInterface";
 
-const API_KEY= process.env.NEXT_PUBLIC_VAPI_API_KEY;
-const AIAGENT_ID= process.env.NEXT_PUBLIC_VAPI_COSTUMERSERVICE_ID;
+const API_KEY = process.env.NEXT_PUBLIC_VAPI_API_KEY;
+const AIAGENT_ID = process.env.NEXT_PUBLIC_VAPI_COSTUMERSERVICE_ID;
 
-const vapi= new Vapi(API_KEY);
+
+const vapi = new Vapi(API_KEY);
 const Home = () => {
   const [connecting, setConnecting] = useState(false);
   const [connected, setConnected] = useState(false);
 
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(null);
+
+
+  const agentType = "Soporte al Cliente";
+  const descriptionAgent = "Experimenta una llamada de soporte técnico con Sara Jessica, asistente virtual de Caja Yanga";
+  const features = [
+    { name: "Atención Personalizada", description: "Asistente con atención personalizada como asesor real" },
+    { name: "Explicación Clara", description: "Explicaciones simples de productos y servicios" },
+    { name: "Resolución Inmediata", description: "Resuelve dudas comunes al instante" },
+  ];
+  const srcSaraJessica = "https://plus.unsplash.com/premium_photo-1682430836754-4226a6593e6d?q=80&w=2645&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const agentName = "Sara Jessica";
+  const agentRole = "Asesora de Soporte Técnico @ Caja Yanga";
+  const services = ["Soporte Técnico", "Atención 24/7", "Resolución Inmediata"];
+
 
   useEffect(() => {
     vapi.on("call-start", () => {
@@ -44,36 +60,27 @@ const Home = () => {
 
   }, []);
 
-  const handleStart = () => {
-    setConnecting(true);
-    vapi.start(AIAGENT_ID);
-  };
+  
+    const handleStart = () => {
+      setConnecting(true);
+      vapi.start(AIAGENT_ID);
+      
+      // Establecer un temporizador para colgar la llamada después de 3 minutos
+      setTimeout(() => {
+        if (connected) { // Verifica si sigue conectado antes de colgar
+          handleStop();
+        }
+      }, 180000); // 3 minutos en milisegundos
+    };
 
   const handleStop = () => vapi.stop();
-  
+
 
   return (
-    <div className="flex flex-col items-center justify-between h-screen w-full bg-blue-900">
-      <div className="flex flex-col items-center justify-center mt-10">
-        <div className={`bg-white rounded-full p-2 flex items-center justify-center ${assistantIsSpeaking ? 'speaking' : ''}`}>
-          <div className="bg-gray-300 rounded-full h-36 w-36 flex items-center justify-center">
-            <span className="text-3xl">👤</span> {/* Placeholder for user icon */}
-          </div>
-        </div>
-        <p className="text-center text-lg mt-2">LLamando...</p>
-        <p className="text-center text-xl font-bold">Agente de IA</p>
-      </div>
-      <div className="flex justify-around mb-16 p-6">
-        <button onClick={handleStart} className=" p-6 rounded-full flex items-center justify-center">
-         <Image src="/accept-call-icon.png" alt="phone" width={55} height={50} 
-          className="h-full w-full"/>
-        </button>
-        <button onClick={handleStop} className="text-white p-6 rounded-full flex items-center justify-center">
-          <Image src="/end-call-icon.png" alt="phone" width={50} height={50}
-          className="h-full w-full" />
-        </button>
-      </div>
-    </div>
+    <RoleplayInterface nameAgent={agentName} descriptionAgent={descriptionAgent} srcAgent={srcSaraJessica} roleAgent={agentRole}
+      services={services} features={features} agenType={agentType} connected={connected} handleStart={handleStart} handleStop={handleStop}
+      agentIsTalking={assistantIsSpeaking}
+    />
   );
 };
 
