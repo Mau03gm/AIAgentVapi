@@ -6,8 +6,8 @@ import { Briefcase, MapPin, User, Target, Brain, AlertCircle } from 'lucide-reac
 
 export default function Sidebar() {
   return (
-    <div className="w-96 min-h-screen bg-slate-50/50 border-r">
-      <div className="p-6 space-y-6">
+    <div className="w-96 min-h-screen p-4 md:p-6 lg:p-8 bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="space-y-6 bg-white">
         <div>
           <h2 className="text-2xl font-semibold text-slate-900">Detalles del Prospecto</h2>
           {/* <p className="text-sm text-slate-500 mt-1">Detalles del prospecto y contexto</p> */}
