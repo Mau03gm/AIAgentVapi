@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Vapi from "@vapi-ai/web";
 import Image from "next/image";
 import RoleplayInterface from "@/components/RoleplayInterface";
+import ReportDebt from "@/components/ReportDebt";
 
 const API_KEY = process.env.NEXT_PUBLIC_VAPI_API_KEY;
 const AIAGENT_ID = process.env.NEXT_PUBLIC_VAPI_DEBT_ID;
@@ -74,10 +75,22 @@ const Home = () => {
 
 
   return (
-    <RoleplayInterface nameAgent={agentName} descriptionAgent={descriptionAgent} srcAgent={srcSaraJessica} roleAgent={agentRole}
-      services={services} features={features} agenType={agentType} connected={connected} handleStart={handleStart} handleStop={handleStop}
-      agentIsTalking={assistantIsSpeaking}
-    />
+    <div className="flex gap-4 h-screen overflow-y-auto relative">
+      <ReportDebt />
+      <RoleplayInterface 
+        nameAgent={agentName} 
+        descriptionAgent={descriptionAgent} 
+        srcAgent={srcSaraJessica} 
+        roleAgent={agentRole}
+        services={services} 
+        features={features} 
+        agenType={agentType} 
+        connected={connected} 
+        handleStart={handleStart} 
+        handleStop={handleStop}
+        agentIsTalking={assistantIsSpeaking}
+      />
+    </div>
   );
 };
 

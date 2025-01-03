@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Vapi from "@vapi-ai/web";
 import RoleplayInterface from "@/components/RoleplayInterface";
 import InstructionsRP from "@/components/InstructionsRP";
+import { FloatingCountdownTimer } from "@/components/Timer";
 
 const API_KEY = process.env.NEXT_PUBLIC_VAPI_API_KEY;
 const AIAGENT_ID = process.env.NEXT_PUBLIC_VAPI_SALESTRANING_ID;
@@ -13,6 +14,7 @@ const Entrenamiento = () => {
   const [connected, setConnected] = useState(false);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(null);
+  const [showTimer, setShowTimer] = useState(false);
 
   const agentType = "Entrenamiento de Ventas";
   const descriptionAgent = "Practica tus habilidades de venta en frío con Carlos Mendoza, un simulador de cliente potencial para Caja Yanga";
@@ -30,11 +32,13 @@ const Entrenamiento = () => {
     vapi.on("call-start", () => {
       setConnecting(false);
       setConnected(true);
+      setShowTimer(true);
     });
 
     vapi.on("call-end", () => {
       setConnecting(false);
       setConnected(false);
+      setShowTimer(false);
     });
 
     vapi.on("speech-start", () => {
@@ -58,16 +62,16 @@ const Entrenamiento = () => {
   const handleStart = () => {
     setConnecting(true);
     vapi.start(AIAGENT_ID);
-    
-    // Establecer un temporizador para colgar la llamada después de 5 minutos
-    setTimeout(() => {
-      if (connected) {
-        handleStop();
-      }
-    }, 300000); // 5 minutos en milisegundos
   };
 
-  const handleStop = () => vapi.stop();
+  const handleStop = () => {
+    vapi.stop();
+    setShowTimer(false);
+  };
+
+  const onTimerEnd = () => {
+    handleStop();
+  };
 
   return (
     <div className="flex">
@@ -86,6 +90,7 @@ const Entrenamiento = () => {
           handleStop={handleStop}
           agentIsTalking={assistantIsSpeaking}
         />
+        {showTimer && <FloatingCountdownTimer initialTime={45} onEnd={onTimerEnd} />}
       </div>
     </div>
   );

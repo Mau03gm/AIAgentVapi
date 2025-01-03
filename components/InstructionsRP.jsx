@@ -6,15 +6,15 @@ import { Briefcase, MapPin, User, Target, Brain, AlertCircle } from 'lucide-reac
 
 export default function Sidebar() {
   return (
-    <div className="w-96 min-h-screen p-4 md:p-6 lg:p-8 bg-gradient-to-b from-gray-50 to-gray-100">
-      <div className="space-y-6 bg-white">
+    <div className="w-full max-w-md min-h-screen p-4 md:p-2 lg:p-2 bg-gradient-to-b from-gray-50 to-gray-100 shadow-md rounded-lg">
+      <div className="space-y-6 bg-white rounded-lg p-4">
         <div>
-          <h2 className="text-2xl font-semibold text-slate-900">Detalles del Prospecto</h2>
+          <h2 className="text-2xl p-2 font-semibold text-slate-900">Detalles del Prospecto</h2>
           {/* <p className="text-sm text-slate-500 mt-1">Detalles del prospecto y contexto</p> */}
         </div>
 
-        <Card className="border-none shadow-none bg-white/50">
-          <CardContent className="p-4">
+        <Card className={`relative overflow-hidden border-b-4 border-blue-500 p-4 bg-white/70 rounded-lg`}>
+          <CardContent className="p-2">
             <h3 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <User className="h-5 w-5 text-blue-500" />
               Prospecto
@@ -33,7 +33,7 @@ export default function Sidebar() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-none bg-white/50">
+        <Card className={`relative overflow-hidden border-b-4 border-blue-500 p-4 bg-white/70 rounded-lg`}>
           <CardContent className="p-4">
             <h3 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <Target className="h-5 w-5 text-blue-500" />
@@ -45,7 +45,7 @@ export default function Sidebar() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-none bg-white/50">
+        <Card className={`relative overflow-hidden border-b-4 border-blue-500 p-4 bg-white/70 rounded-lg`}>
           <CardContent className="p-4">
             <h3 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-blue-500" />
@@ -56,7 +56,6 @@ export default function Sidebar() {
             </p>
           </CardContent>
         </Card>
-
         
       </div>
     </div>
